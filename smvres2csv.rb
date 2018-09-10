@@ -30,8 +30,12 @@ end
 
 if ARGV.size() > 0 then
   input_filename = ARGV[0]
-  input_file = File::open(input_filename)
-  # need error check
+  begin
+    input_file = File::open(input_filename)
+  rescue => error
+    puts error.message
+    exit 1
+  end
   output_filename = input_filename.gsub(/\.txt$/, "_")
   output_filename = output_filename + get_time_str() + ".csv"
 else
@@ -73,4 +77,7 @@ CSV.open(output_filename, "w") do |csv|
   rows.each do |row|
     csv << row
   end
+resucue => error
+  puts error.message
+  exit 1
 end
